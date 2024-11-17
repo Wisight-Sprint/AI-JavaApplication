@@ -4,6 +4,6 @@ public class Gemini {
     public static String getCompletion(String prompt) throws Exception{
 
 
-
+        return "";
     }
 }
