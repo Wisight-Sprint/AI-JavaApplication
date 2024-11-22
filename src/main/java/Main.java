@@ -2,6 +2,7 @@ import config.Config;
 import provider.DBConnectionProvider;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -16,12 +17,13 @@ public class Main {
 
         GeminiOperations geminiOperations = new GeminiOperations();
 
-        String context = geminiOperations.getUserContextType(Config.get("INSIGHT_KEY"));
+        String context = geminiOperations.getUserContextType(Config.get("INSIGHT_KEY"), Config.get("KEYWORD"));
 
-        geminiOperations.generateInsight(data, context);
+        HttpResponse<String> response = geminiOperations.generateInsight(data, context);
 
+        String insightText = geminiOperations.processResponse(response);
 
-
+        dbOperations.insightToDatabase(insightText);
 
     }
 }

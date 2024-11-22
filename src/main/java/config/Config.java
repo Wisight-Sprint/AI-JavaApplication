@@ -12,7 +12,7 @@ public class Config {
     public static void getAllEnviroments() {
         if (environment.equals("prod")) {
             String[] variaveisAmbiente = {
-                    "DBURL", "DBDRIVER", "DBUSER", "DBPASSWORD", "INSIGHT_KEY"
+                    "DBURL", "DBDRIVER", "DBUSER", "DBPASSWORD", "INSIGHT_KEY", "KEYWORD"
             };
 
             for (String chave : variaveisAmbiente) {

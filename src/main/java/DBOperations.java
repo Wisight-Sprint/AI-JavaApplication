@@ -54,38 +54,36 @@ public class DBOperations {
         return result.toString();
     }
 
-    public void specialUserInsert(String insightText) {
-        Integer insightId = connection.queryForObject("""
+    public void insightToDatabase(String insightText) {
+        LocalDateTime time = LocalDateTime.now();
+
+        if (insightKey.chars().anyMatch(c -> Character.isDigit(c))) {
+            Integer insightId = connection.queryForObject(
+                    "SELECT i.insight_id FROM insight i WHERE fk_departamento = ? ORDER BY insight_id DESC LIMIT 1",
+                    Integer.class, insightKey);
+
+            insightId = (insightId == 0) ? 1 : (insightId + 1);
+
+            connection.update("""
+                INSERT INTO insight VALUES (?, ?, ?, ?, ?)
+                """, insightId, time, insightText, null, insightKey);
+        } else {
+            Integer insightId = connection.queryForObject("""
                         SELECT i.insight_id FROM insight i 
                         JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id  
                         WHERE c.estado = ? ORDER BY insight_id DESC LIMIT 1""",
-                Integer.class, insightKey);
+                    Integer.class, insightKey);
 
-        Integer insightKeyId = connection.queryForObject("""
+            Integer insightKeyId = connection.queryForObject("""
                         SELECT i.fk_cidade_estado FROM insight i 
                         JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id  
                         WHERE c.estado = ?""",
-                Integer.class, insightKey);
-        insightId = (insightId == 0) ? 1 : (insightId + 1);
+                    Integer.class, insightKey);
+            insightId = (insightId == 0) ? 1 : (insightId + 1);
 
-        LocalDateTime time = LocalDateTime.now();
-
-        connection.update("""
+            connection.update("""
                 INSERT INTO insight VALUES (?, ?, ?, ?, ?)
                 """, insightId, time, insightText, insightKeyId, null);
-    }
-
-    public void commonUserInsert(String insightText) {
-        Integer insightId = connection.queryForObject(
-                "SELECT i.insight_id FROM insight i WHERE fk_departamento = ? ORDER BY insight_id DESC LIMIT 1",
-                Integer.class, insightKey);
-
-        insightId = (insightId == 0) ? 1 : (insightId + 1);
-
-        LocalDateTime time = LocalDateTime.now();
-
-        connection.update("""
-                INSERT INTO insight VALUES (?, ?, ?, ?, ?)
-                """, insightId, time, insightText, null, insightKey);
+        }
     }
 }
