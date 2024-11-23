@@ -17,7 +17,7 @@ public class Main {
 
         GeminiOperations geminiOperations = new GeminiOperations();
 
-        String context = geminiOperations.getUserContextType(Config.get("INSIGHT_KEY"), Config.get("KEYWORD"));
+        String context = geminiOperations.getUserContextType(Config.get("INSIGHT_KEY"), Config.get("INSIGHT_MESSAGE"));
 
         HttpResponse<String> response = geminiOperations.generateInsight(data, context);
 

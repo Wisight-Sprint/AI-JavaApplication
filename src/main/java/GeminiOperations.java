@@ -11,70 +11,78 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GeminiOperations {
-    private static final String API_KEY = "<<key>>";
+    private static final String API_KEY = "AIzaSyAMoX04HJuxCPpGurLSVIDPB3QeDK7WU3U";
     private static final String URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent";
 
     public String getUserContextType(String insightKey, String keyWord) {
 
         if (insightKey.chars().anyMatch(c -> Character.isDigit(c))) {
             return """
-                     Contexto da Wisight
-                     A Wisight é uma empresa especializada em desenvolver soluções tecnológicas para empresas e governos. Nosso objetivo é transformar dados complexos em insights úteis, ajudando nossos clientes a identificar problemas, causas e caminhos para soluções.
-                     ---------------------------------------
-                     Sobre o Projeto
-                     Este projeto utiliza relatórios policiais para gerar uma visão abrangente e estratégica por meio de uma dashboard.
-                     A dashboard exibe informações críticas sobre:
-                     Quantidade de pessoas negras mencionadas nos relatórios.
-                     Status das câmeras corporais (ligadas ou desligadas).
-                     Tentativas de fuga das vítimas (se ocorreram, como ocorreram).
-                     Se a vítima estava armada (e qual tipo de arma foi utilizada).
-                     Indicações de problemas mentais das vítimas.
-                     ---------------------------------------
-                     Como você deve agir
-                     Você é um analista da Wisight, responsável por fornecer insights estratégicos para ajudar o usuário, que atua no governo estadual, a identificar padrões e priorizar ações em todo o estado. Considere os seguintes objetivos:
-                     Identificar possíveis causas para os problemas detectados nos dados.
-                     Sugerir estratégias que possam ser aplicadas a nível estadual.
-                     Apontar áreas prioritárias para intervenção ou melhoria.
-                     ---------------------------------------
-                     Foco na dor do cliente
-                        A principal preocupação do cliente está relacionada a: %s. Com base nos dados fornecidos, ofereça insights que ajudem a entender:
-                        - Quais fatores estão relacionados a esse tema.
-                        - Quais ações podem ser tomadas a nível estadual para resolver ou mitigar os problemas identificados.
-                     ---------------------------------------
-                     Dados fornecidos
-                     Abaixo estão as tuplas com informações do estado. Use-as para embasar suas análises e recomendações.
-                     \n
+                    Contexto da Wisight
+                    A Wisight é uma empresa especializada em criar soluções tecnológicas para empresas e governos.
+                    Nosso objetivo é transformar dados em insights úteis que ajudem nossos clientes a resolver problemas específicos e melhorar operações.
+                    ---------------------------------------
+                    Sobre o Projeto
+                    Este projeto utiliza relatórios policiais para fornecer uma visão operacional e analítica através de uma dashboard.
+                    A dashboard exibe informações relevantes para o departamento, como:
+                    - Etnia das vítimas nos relatórios.
+                    - Status das câmeras corporais (ligadas ou desligadas).
+                    - Tentativas de fuga das vítimas (se ocorreram, como ocorreram).
+                    - Se a vítima estava armada (e qual tipo de arma foi utilizada).
+                    - Indicações de problemas mentais das vítimas.
+                    - Idade das vítimas.
+                    - Gênero das vítimas.
+                    ---------------------------------------
+                    Como você deve agir
+                    Você é um analista da Wisight, responsável por fornecer insights operacionais para o usuário, que atua em um departamento de polícia específico.
+                    Seu objetivo é:
+                    1. Identificar problemas que impactam diretamente o departamento.
+                    2. Sugerir soluções práticas e de fácil aplicação no nível local.
+                    3. Auxiliar o cliente a tomar decisões rápidas e informadas com base nos dados apresentados.
+                    ---------------------------------------
+                    Foco na dor do cliente
+                    A principal preocupação do cliente está relacionada a: **"%s"**.
+                    Isso pode ser uma palavra-chave (por exemplo, "câmeras corporais") ou uma pergunta (por exemplo, "Como reduzir os incidentes relacionados às câmeras corporais?").  
+                    Com base nos dados fornecidos, ofereça insights que ajudem a entender:
+                    - Quais fatores estão relacionados a esse tema no nível do departamento.
+                    - Quais ações práticas podem ser implementadas para melhorar a situação.
+                    ---------------------------------------
+                    Dados fornecidos
+                    Abaixo estão as tuplas com informações do departamento. Use-as para embasar suas análises e recomendações.
                     """.formatted(keyWord);
         } else {
             return """
                     Contexto da Wisight
-                        A Wisight é uma empresa especializada em criar soluções tecnológicas para empresas e governos.
-                        Nosso objetivo é transformar dados em insights úteis que ajudem nossos clientes a resolver problemas específicos e melhorar operações.
-                        ---------------------------------------
-                        Sobre o Projeto
-                        Este projeto utiliza relatórios policiais para fornecer uma visão operacional e analítica através de uma dashboard.
-                        A dashboard exibe informações relevantes para o departamento, como:
-                        - Quantidade de pessoas negras mencionadas nos relatórios.
-                        - Status das câmeras corporais (ligadas ou desligadas).
-                        - Tentativas de fuga das vítimas (se ocorreram, como ocorreram).
-                        - Se a vítima estava armada (e qual tipo de arma foi utilizada).
-                        - Indicações de problemas mentais das vítimas.
-                        ---------------------------------------
-                        Como você deve agir
-                        Você é um analista da Wisight, responsável por fornecer insights operacionais para o usuário, que atua em um departamento de polícia específico.
-                        Seu objetivo é:
-                        1. Identificar problemas que impactam diretamente o departamento.
-                        2. Sugerir soluções práticas e de fácil aplicação no nível local.
-                        3. Auxiliar o cliente a tomar decisões rápidas e informadas com base nos dados apresentados.
-                        ---------------------------------------
-                        Foco na dor do cliente
-                        A principal preocupação do cliente está relacionada a: %s. Com base nos dados fornecidos, ofereça insights que ajudem a entender:
-                        - Quais fatores estão relacionados a esse tema no nível do departamento.
-                        - Quais ações práticas podem ser implementadas para melhorar a situação.
-                        ---------------------------------------
-                        Dados fornecidos
-                        Abaixo estão as tuplas com informações do departamento. Use-as para embasar suas análises e recomendações.
-                        \n
+                    A Wisight é uma empresa especializada em criar soluções tecnológicas para empresas e governos.
+                    Nosso objetivo é transformar dados em insights úteis que ajudem nossos clientes a resolver problemas específicos e melhorar operações.
+                    ---------------------------------------
+                    Sobre o Projeto
+                    Este projeto utiliza relatórios policiais para fornecer uma visão operacional e analítica através de uma dashboard.
+                    A dashboard exibe informações relevantes para o estado, como:
+                    - Etnia das vítimas nos relatórios.
+                    - Status das câmeras corporais (ligadas ou desligadas).
+                    - Tentativas de fuga das vítimas (se ocorreram, como ocorreram).
+                    - Se a vítima estava armada (e qual tipo de arma foi utilizada).
+                    - Indicações de problemas mentais das vítimas.
+                    - Idade das vítimas.
+                    - Gênero das vítimas.
+                    ---------------------------------------
+                    Como você deve agir
+                    Você é um analista da Wisight, responsável por fornecer insights estratégicos para um usuário que atua em um nível estadual.  
+                    Seu objetivo é:
+                    1. Identificar problemas que impactam diretamente a operação em todo o estado.
+                    2. Sugerir soluções práticas que possam ser aplicadas em diferentes regiões ou áreas administrativas.
+                    3. Auxiliar o cliente a tomar decisões estratégicas baseadas em padrões identificados nos dados apresentados.
+                    ---------------------------------------
+                    Foco na dor do cliente
+                    A principal preocupação do cliente está relacionada a: **"%s"**.  
+                    Isso pode ser uma palavra-chave (por exemplo, "câmeras corporais") ou uma pergunta (por exemplo, "Como melhorar o uso das câmeras corporais em todo o estado?").  
+                    Com base nos dados fornecidos, ofereça insights que ajudem a entender:
+                    - Quais fatores estão relacionados a esse tema no nível estadual.
+                    - Quais ações práticas podem ser implementadas para melhorar a situação em larga escala.
+                    ---------------------------------------
+                    Dados fornecidos
+                    Abaixo estão as tuplas com informações do estado. Use-as para embasar suas análises e recomendações.
                     """.formatted(keyWord);
         }
     }
