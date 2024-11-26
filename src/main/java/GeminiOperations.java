@@ -113,8 +113,8 @@ public class GeminiOperations {
             return null;
         }
         Pattern pattern = Pattern.compile("\"text\"\\s*:\\s*\"([^\"]+)\"");
-        StringBuilder extractedText = new StringBuilder();
 
+        StringBuilder extractedText = new StringBuilder();
 
         try (BufferedReader bufferedReader = new BufferedReader(new StringReader(response.body()))) {
             String line;

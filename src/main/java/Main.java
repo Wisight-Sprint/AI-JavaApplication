@@ -8,16 +8,19 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         Config.getAllEnviroments();
 
+        String insightKey = args[0];
+        String insightMessage = args[1];
+
         DBConnectionProvider provider = new DBConnectionProvider();
 
         DBOperations dbOperations = new DBOperations(
-                provider.getDatabaseConnection(), Config.get("INSIGHT_KEY"));
+                provider.getDatabaseConnection(), insightKey);
 
-        String data = dbOperations.getData(Config.get("INSIGHT_KEY"));
+        String data = dbOperations.getData(insightKey);
 
         GeminiOperations geminiOperations = new GeminiOperations();
 
-        String context = geminiOperations.getUserContextType(Config.get("INSIGHT_KEY"), Config.get("INSIGHT_MESSAGE"));
+        String context = geminiOperations.getUserContextType(insightKey, insightMessage);
 
         HttpResponse<String> response = geminiOperations.generateInsight(data, context);
 
