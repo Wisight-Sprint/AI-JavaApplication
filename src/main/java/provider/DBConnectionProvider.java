@@ -1,6 +1,5 @@
 package provider;
 
-import config.Config;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -11,10 +10,10 @@ public class DBConnectionProvider {
     public DBConnectionProvider(){
         BasicDataSource basicDataSource = new BasicDataSource();
 
-        basicDataSource.setDriverClassName(Config.get("DBDRIVER"));
-        basicDataSource.setUrl(Config.get("DBURL"));
-        basicDataSource.setUsername(Config.get("DBUSER"));
-        basicDataSource.setPassword(Config.get("DBPASSWORD"));
+        basicDataSource.setUrl("");
+        basicDataSource.setDriverClassName("");
+        basicDataSource.setUsername("");
+        basicDataSource.setPassword("");
 
         databaseConnection = new JdbcTemplate(basicDataSource);
     }

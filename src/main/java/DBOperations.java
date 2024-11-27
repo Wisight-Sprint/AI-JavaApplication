@@ -6,30 +6,32 @@ import java.time.LocalDateTime;
 public class DBOperations {
 
     private final JdbcTemplate connection;
-    private final String insightKey;
+    private final String insightKey1;
+    private final String insightKey2;
     private String data;
 
-    public DBOperations(JdbcTemplate connection, String insightKey) {
+    public DBOperations(JdbcTemplate connection, String insightKey1, String insightKey2) {
         this.connection = connection;
-        this.insightKey = insightKey;
+        this.insightKey1 = insightKey1;
+        this.insightKey2 = insightKey2;
     }
 
-    public String getData(String insightKey) {
+    public String getData() {
         StringBuilder result = new StringBuilder();
         String sqlQuery;
 
-        if (insightKey.chars().anyMatch(c -> Character.isDigit(c))) {
-            Integer insightKeyId = Integer.valueOf(insightKey);
+        if (insightKey1.chars().anyMatch(c -> Character.isDigit(c))) {
+            Integer insightKeyId = Integer.valueOf(insightKey1);
 
-            sqlQuery = "SELECT * FROM insight WHERE fk_departamento =" + insightKeyId;
+            sqlQuery = "SELECT * FROM wisight.insight WHERE fk_departamento =" + insightKeyId;
         } else {
             Integer insightKeyId = connection.queryForObject("""
-                            SELECT i.fk_cidade_estado FROM insight i 
+                            SELECT i.fk_cidade_estado FROM wisight.insight i 
                             JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id  
                             WHERE c.estado = ?""",
-                    Integer.class, insightKey);
+                    Integer.class, insightKey2);
 
-            sqlQuery = "SELECT * FROM insights WHERE fk_cidade_estado = " + insightKeyId;
+            sqlQuery = "SELECT * FROM wisight.insights WHERE fk_cidade_estado = " + insightKeyId;
         }
 
         connection.query(sqlQuery, (rs, rowNum) -> {
@@ -57,33 +59,46 @@ public class DBOperations {
     public void insightToDatabase(String insightText) {
         LocalDateTime time = LocalDateTime.now();
 
-        if (insightKey.chars().anyMatch(c -> Character.isDigit(c))) {
-            Integer insightId = connection.queryForObject(
-                    "SELECT i.insight_id FROM insight i WHERE fk_departamento = ? ORDER BY insight_id DESC LIMIT 1",
-                    Integer.class, insightKey);
+        if (insightKey1.chars().anyMatch(c -> Character.isDigit(c))) {
+            Integer insightId = connection.query(
+                    "SELECT COALESCE(MAX(i.insight_id), 0) FROM wisight.insight i WHERE fk_departamento = ?",
+                    (rs, rowNum) -> rs.getInt(1),
+                    insightKey1
+            ).stream().findFirst().orElse(0);
 
-            insightId = (insightId == 0) ? 1 : (insightId + 1);
+            insightId = insightId + 1;
+
+            Integer newInsightKey = connection.queryForObject("""
+                            SELECT i.fk_cidade_estado FROM wisight.insight i 
+                            JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id  
+                            WHERE c.estado = ?""",
+                    Integer.class, insightKey2);
+
 
             connection.update("""
-                INSERT INTO insight VALUES (?, ?, ?, ?, ?)
-                """, insightId, time, insightText, null, insightKey);
+                    INSERT INTO insight VALUES (?, ?, ?, ?, ?)
+                    """, insightId, time, insightText, newInsightKey, insightKey1);
         } else {
-            Integer insightId = connection.queryForObject("""
-                        SELECT i.insight_id FROM insight i 
-                        JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id  
-                        WHERE c.estado = ? ORDER BY insight_id DESC LIMIT 1""",
-                    Integer.class, insightKey);
+            Integer insightId = connection.query("""
+                            SELECT COALESCE(MAX(i.insight_id), 0) FROM wisight.insight
+                            JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id  
+                            WHERE c.estado = ?""",
+                    (rs, rowNum) -> rs.getInt(1),
+                    insightKey1
+            ).stream().findFirst().orElse(0);
+
+            insightId = insightId + 1;
+
 
             Integer insightKeyId = connection.queryForObject("""
-                        SELECT i.fk_cidade_estado FROM insight i 
-                        JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id  
-                        WHERE c.estado = ?""",
-                    Integer.class, insightKey);
-            insightId = (insightId == 0) ? 1 : (insightId + 1);
+                            SELECT i.fk_cidade_estado FROM wisight.insight i 
+                            JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id  
+                            WHERE c.estado = ?""",
+                    Integer.class, insightKey1);
 
             connection.update("""
-                INSERT INTO insight VALUES (?, ?, ?, ?, ?)
-                """, insightId, time, insightText, insightKeyId, null);
+                    INSERT INTO wisight.insight VALUES (?, ?, ?, ?, ?)
+                    """, insightId, time, insightText, insightKeyId, insightKey2);
         }
     }
 }

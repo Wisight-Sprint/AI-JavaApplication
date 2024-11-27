@@ -6,21 +6,21 @@ import java.net.http.HttpResponse;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-        Config.getAllEnviroments();
 
-        String insightKey = args[0];
-        String insightMessage = args[1];
+        String insightKey1 = args[0];
+        String insightKey2 = args[1];
+        String insightMessage = args[2];
 
         DBConnectionProvider provider = new DBConnectionProvider();
 
         DBOperations dbOperations = new DBOperations(
-                provider.getDatabaseConnection(), insightKey);
+                provider.getDatabaseConnection(), insightKey1, insightKey2);
 
-        String data = dbOperations.getData(insightKey);
+        String data = dbOperations.getData();
 
         GeminiOperations geminiOperations = new GeminiOperations();
 
-        String context = geminiOperations.getUserContextType(insightKey, insightMessage);
+        String context = geminiOperations.getUserContextType(insightKey1, insightMessage);
 
         HttpResponse<String> response = geminiOperations.generateInsight(data, context);
 

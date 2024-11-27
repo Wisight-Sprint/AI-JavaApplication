@@ -14,9 +14,9 @@ public class GeminiOperations {
     private static final String API_KEY = "AIzaSyAMoX04HJuxCPpGurLSVIDPB3QeDK7WU3U";
     private static final String URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent";
 
-    public String getUserContextType(String insightKey, String keyWord) {
+    public String getUserContextType(String insightKey1, String keyWord) {
 
-        if (insightKey.chars().anyMatch(c -> Character.isDigit(c))) {
+        if (insightKey1.chars().anyMatch(c -> Character.isDigit(c))) {
             return """
                     Contexto da Wisight
                     A Wisight é uma empresa especializada em criar soluções tecnológicas para empresas e governos.
