@@ -31,7 +31,7 @@ public class DBOperations {
                             WHERE c.estado = ?""",
                     Integer.class, insightKey2);
 
-            sqlQuery = "SELECT * FROM wisight.insights WHERE fk_cidade_estado = " + insightKeyId;
+            sqlQuery = "SELECT * FROM wisight.insight WHERE fk_cidade_estado = " + insightKeyId;
         }
 
         connection.query(sqlQuery, (rs, rowNum) -> {
@@ -69,14 +69,18 @@ public class DBOperations {
             insightId = insightId + 1;
 
             Integer newInsightKey = connection.queryForObject("""
-                            SELECT i.fk_cidade_estado FROM wisight.insight i 
-                            JOIN cidade_estado c ON i.fk_cidade_estado = c.cidade_estado_id  
-                            WHERE c.estado = ?""",
+                            SELECT cidade_estado_id FROM wisight.cidade_estado c
+                            WHERE c.estado = ?
+                            """,
                     Integer.class, insightKey2);
 
-
+            System.out.println("insight id"+ insightId);
+            System.out.println("insightText" + insightText);
+            System.out.println("newInsight" + newInsightKey);
+            System.out.println("insight1" + insightKey1);
+            System.out.println("time"+ time);
             connection.update("""
-                    INSERT INTO insight VALUES (?, ?, ?, ?, ?)
+                    INSERT INTO wisight.insight VALUES (?, ?, ?, ?, ?)
                     """, insightId, time, insightText, newInsightKey, insightKey1);
         } else {
             Integer insightId = connection.query("""

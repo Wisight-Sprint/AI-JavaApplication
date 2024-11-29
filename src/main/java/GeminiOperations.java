@@ -1,5 +1,3 @@
-import config.Config;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -9,10 +7,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.json.JSONObject;
 
 public class GeminiOperations {
-    private static final String API_KEY = "AIzaSyAMoX04HJuxCPpGurLSVIDPB3QeDK7WU3U";
-    private static final String URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent";
+
+    private static final String URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBVeSciUbmZP4qPYqqHMk3Wrq4sSACKwXo";
 
     public String getUserContextType(String insightKey1, String keyWord) {
 
@@ -88,30 +87,45 @@ public class GeminiOperations {
     }
 
     public HttpResponse<String> generateInsight(String data, String context) throws IOException, InterruptedException {
-
         String fullPrompt = context + data;
 
-        String jsonRequest = "{\"contents\":[{\"parts\":[{\"text\":\"" + fullPrompt + "\"}],\"role\":\"user\"}]}";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("contents", new JSONObject[]{
+                new JSONObject().put("parts", new JSONObject[]{
+                        new JSONObject().put("text", fullPrompt)
+                }).put("role", "user")
+        });
+
+        String jsonRequest = jsonObject.toString();
 
         HttpClient httpClient = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(URL + "?alt=sse&key=" + API_KEY))
+                .uri(URI.create(URL))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(jsonRequest))
                 .build();
 
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = null;
+        try {
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("[DEBUG] Resposta recebida com status: " + response.statusCode());
+        } catch (IOException | InterruptedException e) {
+            System.out.println("[ERRO] Falha ao enviar requisição: " + e.getMessage());
+            throw e;
+        }
         processResponse(response);
-
         return response;
     }
 
+
     public String processResponse(HttpResponse<String> response) throws IOException {
-        if (response.statusCode() != 200) {
-            System.out.println("Erro: " + response.statusCode());
+        if (response == null || response.statusCode() != 200) {
+            System.out.println("[ERRO] Resposta inválida ou status diferente de 200: " + (response != null ? response.statusCode() : "nulo"));
+            System.out.println("[DEBUG] Corpo da resposta:\n" + (response != null ? response.body() : "nulo"));
             return null;
         }
+
         Pattern pattern = Pattern.compile("\"text\"\\s*:\\s*\"([^\"]+)\"");
 
         StringBuilder extractedText = new StringBuilder();
@@ -120,13 +134,15 @@ public class GeminiOperations {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 if (line.isEmpty()) continue;
-                Matcher matcher = pattern.matcher(line.substring(5));
+                Matcher matcher = pattern.matcher(line);
                 if (matcher.find()) {
                     extractedText.append(matcher.group(1)).append(" ");
                 }
             }
+        } catch (Exception e) {
+            System.out.println("[ERRO] Falha ao processar resposta: " + e.getMessage());
+            throw e;
         }
-
         return extractedText.toString();
     }
 }
