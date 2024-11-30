@@ -18,6 +18,8 @@ public class Main {
 
         String data = dbOperations.getData();
 
+        System.out.println("Main, retorno String data: " + data);
+
         GeminiOperations geminiOperations = new GeminiOperations();
 
         String context = geminiOperations.getUserContextType(insightKey1, insightMessage);
