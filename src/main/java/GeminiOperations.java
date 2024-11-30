@@ -131,6 +131,8 @@ public class GeminiOperations {
                     Abaixo estão as tuplas com informações do departamento. Use-as para embasar suas análises e recomendações.
                     """.formatted(keyWord);
 
+
+
         }
     }
 
@@ -184,14 +186,20 @@ public class GeminiOperations {
                 if (line.isEmpty()) continue;
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find()) {
-                    extractedText.append(matcher.group(1)).append(" ");
+                    String cleanedLine = matcher.group(1).replace("\\n", "")
+                            .replace("\\", "")
+                                    .replace("#", "")
+                                    .replace("\n\n", "")
+                                    .replace("/", "")
+                                    .replace("*", "")
+                                    .trim();
+                    extractedText.append(cleanedLine).append(" ");
                 }
             }
         } catch (Exception e) {
             System.out.println("[ERRO] Falha ao processar resposta: " + e.getMessage());
             throw e;
         }
-
         return extractedText.toString();
     }
 }

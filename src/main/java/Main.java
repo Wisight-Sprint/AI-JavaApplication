@@ -1,4 +1,3 @@
-import config.Config;
 import provider.DBConnectionProvider;
 
 import java.io.IOException;
