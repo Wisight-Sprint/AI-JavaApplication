@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.json.JSONObject;
 
 public class GeminiOperations {
@@ -41,10 +42,19 @@ public class GeminiOperations {
                     ---------------------------------------
                     Foco na dor do cliente
                     A principal preocupação do cliente está relacionada a: **"%s"**.
-                    Isso pode ser uma palavra-chave (por exemplo, "câmeras corporais") ou uma pergunta (por exemplo, "Como reduzir os incidentes relacionados às câmeras corporais?").  
                     Com base nos dados fornecidos, ofereça insights que ajudem a entender:
                     - Quais fatores estão relacionados a esse tema no nível do departamento.
                     - Quais ações práticas podem ser implementadas para melhorar a situação.
+                    ---------------------------------------
+                    Formato esperado da resposta
+                    Por favor, forneça as respostas no seguinte formato:
+                    - Tópicos curtos e objetivos.
+                    - Cada recomendação ou insight deve ser um tópico separado.
+                    - O texto deve ser claro, direto e focado em ajudar o cliente a entender o problema e encontrar soluções.
+                    Exemplo:
+                    - Identifique padrões específicos relacionados ao tema "câmeras corporais".
+                    - Recomende ações que possam ser implementadas de forma prática.
+                    - Destaque fatores em comum que podem contribuir para a solução.
                     ---------------------------------------
                     Dados fornecidos
                     Abaixo estão as tuplas com informações do departamento. Use-as para embasar suas análises e recomendações.
@@ -67,7 +77,7 @@ public class GeminiOperations {
                     - Gênero das vítimas.
                     ---------------------------------------
                     Como você deve agir
-                    Você é um analista da Wisight, responsável por fornecer insights estratégicos para um usuário que atua em um nível estadual.  
+                    Você é um analista da Wisight, responsável por fornecer insights estratégicos para um usuário que atua em um nível estadual.
                     Seu objetivo é:
                     1. Identificar problemas que impactam diretamente a operação em todo o estado.
                     2. Sugerir soluções práticas que possam ser aplicadas em diferentes regiões ou áreas administrativas.
@@ -75,10 +85,19 @@ public class GeminiOperations {
                     ---------------------------------------
                     Foco na dor do cliente
                     A principal preocupação do cliente está relacionada a: **"%s"**.  
-                    Isso pode ser uma palavra-chave (por exemplo, "câmeras corporais") ou uma pergunta (por exemplo, "Como melhorar o uso das câmeras corporais em todo o estado?").  
                     Com base nos dados fornecidos, ofereça insights que ajudem a entender:
                     - Quais fatores estão relacionados a esse tema no nível estadual.
                     - Quais ações práticas podem ser implementadas para melhorar a situação em larga escala.
+                    ---------------------------------------
+                    Formato esperado da resposta
+                    Por favor, forneça as respostas no seguinte formato:
+                    - Tópicos curtos e objetivos.
+                    - Cada recomendação ou insight deve ser um tópico separado.
+                    - O texto deve ser claro, direto e focado em ajudar o cliente a entender o problema e encontrar soluções.
+                    Exemplo:
+                    - Identifique padrões específicos relacionados ao tema "câmeras corporais".
+                    - Recomende ações que possam ser implementadas de forma prática.
+                    - Destaque fatores em comum que podem contribuir para a solução.
                     ---------------------------------------
                     Dados fornecidos
                     Abaixo estão as tuplas com informações do estado. Use-as para embasar suas análises e recomendações.
