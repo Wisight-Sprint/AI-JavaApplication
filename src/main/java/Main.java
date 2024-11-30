@@ -6,6 +6,7 @@ import java.net.http.HttpResponse;
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
 
+
         String insightKey1 = args[0];
         String insightKey2 = args[1];
         String insightMessage = args[2];
