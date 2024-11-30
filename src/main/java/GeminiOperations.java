@@ -17,7 +17,7 @@ public class GeminiOperations {
     public String getUserContextType(String insightKey1, String keyWord) {
 
         if (insightKey1.chars().anyMatch(c -> Character.isDigit(c))) {
-            return """
+            return """ 
                     Contexto da Wisight
                     A Wisight é uma empresa especializada em criar soluções tecnológicas para empresas e governos.
                     Nosso objetivo é transformar dados em insights úteis que ajudem nossos clientes a resolver problemas específicos e melhorar operações.
@@ -58,9 +58,9 @@ public class GeminiOperations {
                     ---------------------------------------
                     Exemplo de formato esperado da resposta:
                     - Desafios Identificados:                 
-                    Vítimas armadas estão associadas a 70% dos incidentes fatais, sendo armas de fogo o tipo mais comum.
-                    Dados mostram que agentes mais experientes têm 20% menos incidentes fatais comparados a agentes com menos de dois anos de serviço.
-                    Regiões com maior incidência de transtornos mentais nas vítimas têm uma taxa de uso de força 50% maior.
+                    Vítimas armadas estão associadas a 70 porcento dos incidentes fatais, sendo armas de fogo o tipo mais comum.
+                    Dados mostram que agentes mais experientes têm 20 porcento menos incidentes fatais comparados a agentes com menos de dois anos de serviço.
+                    Regiões com maior incidência de transtornos mentais nas vítimas têm uma taxa de uso de força 50 porcento maior.
                     - Recomendações:
                     Equipar agentes com ferramentas não letais mais eficazes, como armas de choque, em áreas de alta criminalidade.
                     Implementar programas de treinamento contínuo com foco em manejo de crises para agentes novos.
@@ -98,7 +98,7 @@ public class GeminiOperations {
                     3. Auxiliar o cliente a tomar decisões rápidas e informadas com base nos dados apresentados.
                     ---------------------------------------
                     Foco na dor do cliente
-                    A principal preocupação do cliente está relacionada a: %s.  
+                    A principal preocupação do cliente está relacionada a: %s.
                     Com base nos dados fornecidos, ofereça insights que ajudem a entender:
                     - Quais fatores estão relacionados a esse tema no nível estadual.
                     - Quais ações práticas podem ser implementadas para melhorar a situação em larga escala.
@@ -114,10 +114,10 @@ public class GeminiOperations {
                     6. O texto deve ser claro, direto e focado em ajudar o cliente a entender o problema e encontrar soluções.
                     ---------------------------------------
                     Exemplo de formato esperado da resposta:
-                    - Desafios Identificados:                 
-                    Vítimas armadas estão associadas a 70% dos incidentes fatais, sendo armas de fogo o tipo mais comum.
-                    Dados mostram que agentes mais experientes têm 20% menos incidentes fatais comparados a agentes com menos de dois anos de serviço.
-                    Regiões com maior incidência de transtornos mentais nas vítimas têm uma taxa de uso de força 50% maior.
+                    - Desafios Identificados:
+                    Vítimas armadas estão associadas a 70 porcento dos incidentes fatais, sendo armas de fogo o tipo mais comum.
+                    Dados mostram que agentes mais experientes têm 20 porcento menos incidentes fatais comparados a agentes com menos de dois anos de serviço.
+                    Regiões com maior incidência de transtornos mentais nas vítimas têm uma taxa de uso de força 50 porcento maior.
                     - Recomendações:
                     Equipar agentes com ferramentas não letais mais eficazes, como armas de choque, em áreas de alta criminalidade.
                     Implementar programas de treinamento contínuo com foco em manejo de crises para agentes novos.
@@ -130,6 +130,7 @@ public class GeminiOperations {
                     Dados fornecidos
                     Abaixo estão as tuplas com informações do departamento. Use-as para embasar suas análises e recomendações.
                     """.formatted(keyWord);
+
         }
     }
 
