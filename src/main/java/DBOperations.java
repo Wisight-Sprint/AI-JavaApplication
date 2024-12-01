@@ -45,7 +45,9 @@ public class DBOperations {
                 if (i > 1) {
                     line.append(", ");
                 }
-                line.append(rs.getString(i));
+                String columnName = rs.getMetaData().getColumnName(i);
+                String columnValue = rs.getString(i);
+                line.append(columnName).append(": ").append(columnValue);
             }
 
             if (result.length() > 0) {
