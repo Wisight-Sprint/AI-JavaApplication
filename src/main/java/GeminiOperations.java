@@ -203,6 +203,8 @@ public class GeminiOperations {
             System.out.println("[ERRO] Falha ao processar resposta: " + e.getMessage());
             throw e;
         }
+        System.out.println("Retorno IA: " + extractedText.toString());
+
         return extractedText.toString();
     }
 }

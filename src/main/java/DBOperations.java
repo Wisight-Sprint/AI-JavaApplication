@@ -82,6 +82,13 @@ public class DBOperations {
                             """,
                     Integer.class, insightKey2, insightKey1);
 
+            System.out.println("Tupla ser inserida \n" +
+                    "- InsightId: " + insightId + "\n" +
+                    "- Time: " + time + "\n" +
+                    "- InsightText: " + insightText + "\n" +
+                    "- NewInsightKey: " + newInsightKey + "\n" +
+                    "- InsightKey1: " + insightKey1 + "\n");
+
             connection.update("""
                     INSERT INTO wisight.insight VALUES (?, ?, ?, ?, ?)
                     """, insightId, time, insightText, newInsightKey, insightKey1);
