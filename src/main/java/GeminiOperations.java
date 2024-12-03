@@ -166,6 +166,12 @@ public class GeminiOperations {
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find()) {
                     String cleanedLine = matcher.group(1)
+                            .replace("\\n", "")
+                            .replace("\\", "")
+                            .replace("#", "")
+                            .replace("\n\n", "")
+                            .replace("/", "")
+                            .replace("*", "")
                             .trim();
                     extractedText.append(cleanedLine).append(" ");
                 }
