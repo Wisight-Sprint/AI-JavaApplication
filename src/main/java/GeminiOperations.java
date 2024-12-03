@@ -39,6 +39,7 @@ public class GeminiOperations {
                      1. Identificar problemas que impactam diretamente o departamento.
                      2. Sugerir soluções práticas e de fácil aplicação no nível local.
                      3. Auxiliar o cliente a tomar decisões rápidas e informadas com base nos dados apresentados.
+                     4. Algumas consultas no banco de dados podem conter poucas informações. Se não houver padrões, foque no motivo das ocorrências ou na quantidade, trazendo o que pode ter sido o causador do incidente.
                      ---------------------------------------
                      Foco na dor do cliente
                      A principal preocupação do cliente está relacionada a: %s.
@@ -47,15 +48,14 @@ public class GeminiOperations {
                      - Quais ações práticas podem ser implementadas para melhorar a situação em larga escala.
                      ---------------------------------------
                      Por favor, formate a resposta de forma limpa e bem estruturada, seguindo estas instruções:
-                     1. Remova quaisquer caracteres especiais desnecessários, como "\\n", "*", "#" ou similares.
-                     2. Use apenas texto claro e direto, sem formatação adicional.
-                     3. Organize a resposta em seções bem definidas, como:
-                        - Desafios com os dados atuais: (liste os desafios de forma objetiva).
-                        - Recomendações: (liste recomendações práticas e detalhadas).
-                     4. Certifique-se de que cada seção seja iniciada com um título claro e que a resposta seja curta, mas com detalhes suficientes.
-                     5. Cada recomendação ou insight deve ser um tópico separado.
-                     6. O texto deve ser claro, direto e focado em ajudar o cliente a entender o problema e encontrar soluções.
-                     7. Trabalhe com os dados que forem passados mesmo que sejam poucos.
+                    1. Remova quaisquer caracteres especiais desnecessários, como "\\n", "*", "#" ou similares.
+                    2. Use apenas texto claro e direto, sem formatação adicional.
+                    3. Certifique-se de que cada seção seja iniciada com um título claro e que a resposta seja curta, mas com detalhes suficientes.
+                    4. Cada recomendação ou insight deve ser um tópico separado.
+                    5. O texto deve ser claro, direto e focado em ajudar o cliente a entender o problema e encontrar soluções.
+                    6. Trabalhe com os dados que forem passados mesmo que sejam poucos.
+                    7. Separe a resposta em padrões, quantidade de incidentes, possível causador e possível solução e recomendações do que fazer ou de onde investigar por exemplo.
+                    8. Sempre que um tópico for encerrado vá para a linha de baixo.
                      ---------------------------------------
                      Exemplo de formato esperado da resposta:
                      Desafios Identificados:
@@ -98,6 +98,7 @@ public class GeminiOperations {
                     1. Identificar problemas que impactam diretamente a operação em todo o estado.
                     2. Sugerir soluções práticas que possam ser aplicadas em diferentes regiões ou áreas administrativas.
                     3. Auxiliar o cliente a tomar decisões estratégicas baseadas em padrões identificados nos dados apresentados.
+                    4. Algumas consultas no banco de dados podem conter poucas informações. Se não houver padrões, foque no motivo das ocorrências ou na quantidade, trazendo o que pode ter sido o causador do incidente.
                     ---------------------------------------
                     Foco na dor do cliente
                     A principal preocupação do cliente está relacionada a: %s.  
@@ -108,13 +109,12 @@ public class GeminiOperations {
                     Por favor, formate a resposta de forma limpa e bem estruturada, seguindo estas instruções:
                     1. Remova quaisquer caracteres especiais desnecessários, como "\\n", "*", "#" ou similares.
                     2. Use apenas texto claro e direto, sem formatação adicional.
-                    3. Organize a resposta em seções bem definidas, como:
-                       - Desafios com os dados atuais: (liste os desafios de forma objetiva).
-                       - Recomendações: (liste recomendações práticas e detalhadas).
-                    4. Certifique-se de que cada seção seja iniciada com um título claro e que a resposta seja curta, mas com detalhes suficientes.
-                    5. Cada recomendação ou insight deve ser um tópico separado.
-                    6. O texto deve ser claro, direto e focado em ajudar o cliente a entender o problema e encontrar soluções.
-                    7. Trabalhe com os dados que forem passados mesmo que sejam poucos.
+                    3. Certifique-se de que cada seção seja iniciada com um título claro e que a resposta seja curta, mas com detalhes suficientes.
+                    4. Cada recomendação ou insight deve ser um tópico separado.
+                    5. O texto deve ser claro, direto e focado em ajudar o cliente a entender o problema e encontrar soluções.
+                    6. Trabalhe com os dados que forem passados mesmo que sejam poucos.
+                    7. Separe a resposta em padrões, quantidade de incidentes, possível causador e possível solução e recomendações do que fazer ou de onde investigar por exemplo.
+                    8. Sempre que um tópico for encerrado vá para a linha de baixo.
                     ---------------------------------------
                     Exemplo de formato esperado da resposta:
                     Desafios Identificados:                 
@@ -186,7 +186,8 @@ public class GeminiOperations {
                 if (line.isEmpty()) continue;
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find()) {
-                    String cleanedLine = matcher.group(1).replace("\\n", "")
+                    String cleanedLine = matcher.group(1)
+                            .replace("\\n", "")
                             .replace("\\", "")
                             .replace("#", "")
                             .replace("\n\n", "")
