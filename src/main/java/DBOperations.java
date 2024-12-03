@@ -23,7 +23,11 @@ public class DBOperations {
         if (insightKey1.chars().anyMatch(c -> Character.isDigit(c))) {
             Integer insightKeyId = Integer.valueOf(insightKey1);
 
-            sqlQuery = "SELECT * FROM wisight.relatorio WHERE fk_departamento = " + insightKeyId;
+            sqlQuery = """
+                    SELECT v.*, r.* FROM wisight.vitima v 
+                    JOIN relatorio r ON r.relatorio_id = v.fk_relatorio 
+                    WHERE r.fk_departamento = """ + insightKeyId;
+
         } else {
             Integer insightKeyId = connection.queryForObject("""
                         SELECT c.cidade_estado_id FROM cidade_estado c
@@ -31,7 +35,8 @@ public class DBOperations {
                     Integer.class, insightKey1);
 
             sqlQuery = """
-                    SELECT * FROM wisight.relatorio r 
+                    SELECT v.*, r.* FROM wisight.vitima v 
+                    JOIN relatorio r ON r.relatorio_id = v.fk_relatorio 
                     JOIN departamento d ON d.departamento_id = r.fk_departamento
                     JOIN cidade_estado c ON c.cidade_estado_id = d.fk_cidade_estado 
                     WHERE c.estado = """ + insightKey1;
